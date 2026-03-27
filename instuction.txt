@@ -1,0 +1,87 @@
+**Role & Objective:**
+Act as a **Senior Process Improvement Specialist** and **Strict Kaizen Auditor**.
+Your task is to analyze the provided project data and generate a **comprehensive Kaizen Report**.
+You must adhere to high standards of data integrity ("Intigravity"). You will produce two distinct outputs:
+1.  **Textual Report:** A professional, persuasive narrative suitable for management review (Excel-ready format).
+2.  **Benefit Calculation:** A strict, logic-based financial analysis using standard formulas (AH Standard).
+
+---
+
+### PART 1: STANDARDS & LOGIC (DO NOT DEVIATE)
+
+**A. Kaizen Category Selection Rules (Select ONE best fit):**
+1.  **Cost Reduction:**
+    * *Process Improvement:* Reduce waiting, balance lines, reduce headcount.
+    * *Capacity Enhancement:* Increase output, reduce OT.
+    * *Down time:* Reduce breakdown/setup.
+    * *Quality:* Reduce NG/Rework.
+    * *Inventory/Material:* Reduce stock or material usage.
+2.  **Safety:** Reduce accident risks.
+3.  **Environment:** Reduce pollution/waste.
+4.  **Work Condition:** Ergonomics/Health.
+5.  **Innovation:** New technology.
+
+**B. Benefit Calculation Logic (Strictly apply ONE formula):**
+* **Formula A (Manpower Saving):** ONLY use if headcount is reduced/removed.
+    * *Math:* (Reduced Headcount) x 25,000 THB
+* **Formula B (Man-hour Saving):** Use if time is saved but staff remains.
+    * *Math:* [(Salary ÷ Days/mo ÷ Hours/day) x Total Hours Saved]
+* **Formula C (Space Saving):** Rental rate x Area saved (sq.m).
+* **Formula D (Other):** Actual OT reduction cost or Downtime cost (must be cited if assumed).
+
+---
+
+### PART 2: INPUT DATA (PROJECT CONTEXT)
+
+**Project Name:** [ใส่ชื่อโปรเจกต์ของคุณตรงนี้]
+**Project Description:** [อธิบายสั้นๆ ว่าทำอะไร]
+**Problem (Before):** [ปัญหาเดิมคืออะไร]
+**Solution (After):** [สิ่งที่ทำลงไป/เทคโนโลยีที่ใช้]
+**Key Metrics (Before vs After):**
+* Time used: [Before] vs [After]
+* Error rate: [Before] vs [After]
+* Headcount: [Before] vs [After] (ระบุว่ามีการลดคนออก หรือแค่ลดเวลางาน)
+**Financial Parameters (For Calculation):**
+* Number of staff involved: [ระบุจำนวนคน]
+* Average Salary: [ระบุเงินเดือน เช่น 20,000]
+* Working Days/Month: [ระบุวันทำงาน เช่น 22]
+* Working Hours/Day: [ระบุชม.ทำงาน เช่น 8]
+* Cost of downtime (if applicable): [ระบุถ้ามี]
+
+---
+
+### PART 3: REQUIRED OUTPUT
+
+Please generate the response in two clear sections:
+
+#### SECTION 1: The Kaizen Report (Excel-Compatible)
+*Draft this section using professional business language (English or Thai as requested). Structure it as follows:*
+
+**1. Reason / Kaizen Background**
+* Origin of the problem.
+* Necessity of improvement (Business impact).
+
+**2. Current Situation (Before State)**
+* Detailed bottlenecks/waste (Muda).
+* Quantitative severity.
+
+**3. Kaizen Idea / Concept**
+* Core concept (The "After" state).
+* Methodology/Technology used.
+* Root cause addressal.
+
+**4. Kaizen Result**
+* **4.1 Performance:** Compare Old vs. New (Speed, Accuracy, Quality).
+* **4.2 Value Added (Non-Financial):** Risk reduction, Scalability, Satisfaction.
+
+---
+
+#### SECTION 2: Strict Benefit Calculation (AH Standard)
+*Perform the calculation step-by-step to ensure integrity.*
+
+1.  **Selected Category:** (Specify Main & Sub-category)
+2.  **Formula Selection:** (State clearly: "Using Formula [A/B/C] because...")
+3.  **Calculation Steps:** show the math: `(Variable A / Variable B) * Variable C`
+4.  **Final Savings:**
+    * **THB per Month:**
+    * **THB per Year:**

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <title>A4 Precision 0.7cm Layout - Fixed Line Height & Overflow</title>
+    <style>
+        /* =========================================
+           1. CONFIGURATION (CSS VARIABLES)
+           ========================================= */
+        :root {
+            --page-width: 210mm;
+            --page-height: 297mm;
+            --main-margin: 0.7cm;
+            --header-height: 1.5cm;
+            --border-color: black;
+            --blue-line: #ffffff;
+            --bg-page: #d1d1d6;
+            --bg-header: #f8f9fa;
+
+            /* คำนวณความสูง 1 บรรทัดแบบเป๊ะๆ (พื้นที่ใช้งาน 267mm / 45 แถว) */
+            --row-h: 5.93mm;
+        }
+
+        /* =========================================
+           2. RESET & PAGE SETUP
+           ========================================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+
+        @page {
+            size: A4 portrait;
+            margin: 0;
+        }
+
+        body {
+            background: var(--bg-page);
+            display: flex;
+            justify-content: center;
+            padding: 20px 0;
+        }
+
+        .paper {
+            width: var(--page-width);
+            height: var(--page-height);
+            background: white;
+            position: relative;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .main-frame {
+            position: absolute;
+            top: var(--main-margin);
+            left: var(--main-margin);
+            right: var(--main-margin);
+            bottom: var(--main-margin);
+            border: 2px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* =========================================
+           3. MAIN LAYOUT STRUCTURE
+           ========================================= */
+        .obj-1-header {
+            flex: 0 0 var(--header-height);
+            border-bottom: 1px solid var(--border-color);
+            display: grid;
+            grid-template-columns: 10% 90%;
+            background: var(--bg-header);
+        }
+
+        .main-content-grid {
+            display: grid;
+            /* เปลี่ยนเป็น fr เพื่อให้ความสูง 1 แถวเท่ากันทั้งเอกสาร (18 + 14 + 13 = 45 แถวพอดี) */
+            grid-template-rows: 18fr 14fr 13fr;
+            flex: 1;
+            min-height: 0;
+            min-width: 0;
+            /* ป้องกัน Grid ถ่างออกแนวนอน */
+        }
+
+        .grid {
+            display: grid;
+            height: 100%;
+            min-height: 0;
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        .box {
+            min-height: 0;
+            min-width: 0;
+            /* ★ สำคัญมาก: ป้องกันไม่ให้ข้อความดันกล่องทะลุขอบ 0.7cm */
+            overflow: hidden;
+            position: relative;
+            word-wrap: break-word;
+            /* สั่งให้ข้อความตัดขึ้นบรรทัดใหม่เมื่อชนขอบ */
+        }
+
+        .b-r {
+            border-right: 1px solid var(--border-color);
+        }
+
+        .b-b {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .label {
+            padding: 5px;
+            font-size: 8pt;
+            color: #333;
+        }
+
+        .label-md {
+            padding: 10px;
+            font-size: 9pt;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .flex-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .flex-left {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .flex-right {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .font-bold {
+            font-weight: bold;
+        }
+
+        .font-md {
+            font-size: 9pt;
+        }
+
+        /* =========================================
+           4. OBJ 2.1 - TOP SECTION
+           ========================================= */
+        .obj-2-1-top {
+            grid-template-columns: 55% 45%;
+        }
+
+        .obj-2-1-l-stack {
+            grid-template-rows: 50% 50%;
+        }
+
+        .obj-2-1-l-top-grid {
+            grid-template-columns: 20% 80%;
+            grid-template-rows: repeat(5, 20%);
+        }
+
+        .obj-2-1-r-stack {
+            grid-template-rows: 60% 40%;
+        }
+
+        .obj-2-1-r-inner-header {
+            grid-template-rows: 10% 90%;
+        }
+
+        .obj-2-1-r-core {
+            grid-template-rows: 11.11% 88.89%;
+        }
+
+        .g-cols-5 {
+            grid-template-columns: repeat(5, 1fr);
+        }
+
+        .g-eval-table {
+            display: grid;
+            grid-template-columns: 40% 10% 10% 10% 10% 20%;
+            grid-template-rows: repeat(8, 1fr);
+            height: 100%;
+        }
+
+        .g-rows-9 {
+            display: grid;
+            grid-template-rows: repeat(9, 1fr);
+            height: 100%;
+        }
+
+        .g-rows-14 {
+            display: grid;
+            grid-template-rows: repeat(14, 1fr);
+            height: 100%;
+        }
+
+        .g-rows-13 {
+            display: grid;
+            grid-template-rows: repeat(13, 1fr);
+            height: 100%;
+        }
+
+        .g-ratio-622 {
+            display: grid;
+            grid-template-columns: 60% 20% 20%;
+            height: 100%;
+        }
+
+        .g-3x4-blue {
+            display: grid;
+            grid-template-columns: 31% 23% 46%;
+            grid-template-rows: repeat(4, 1fr);
+            height: 100%;
+        }
+
+        .blue-cell {
+            border-right: 1px solid var(--blue-line);
+            border-bottom: 1px solid var(--blue-line);
+            display: flex;
+            align-items: center;
+            padding: 0 3px;
+            font-size: 6pt;
+            color: #000;
+            white-space: nowrap;
+            overflow: hidden;
+            min-width: 0;
+        }
+
+        .blue-cell input[type="checkbox"] {
+            margin-right: 4px;
+            width: 11px;
+            height: 11px;
+            accent-color: #000;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .blue-cell:nth-child(3n) {
+            border-right: none;
+        }
+
+        .blue-cell:nth-last-child(-n+3) {
+            border-bottom: none;
+        }
+
+        /* =========================================
+           5. ★ CSS เส้นบรรทัดแบบเป๊ะ 100% ★
+           ========================================= */
+        .lined-text-area {
+            /* วาดเส้นบรรทัดอัตโนมัติ */
+            background-image: linear-gradient(to bottom, transparent calc(100% - 1px), var(--border-color) calc(100% - 1px));
+            /* หารความสูงด้วยตัวแปร --span เพื่อให้สเกลเส้นเท่ากับตารางเป๊ะ */
+            background-size: 100% calc(100% / var(--span));
+            /* ตั้งค่าความสูงตัวหนังสือให้อยู่ในเส้นพอดี */
+            line-height: var(--row-h);
+            display: block;
+            padding: 0 5px;
+        }
+
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+
+            .paper {
+                box-shadow: none;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="paper">
+        <div class="main-frame">
+
+            <!-- [OBJ 1] HEADER -->
+            <div class="obj-1-header">
+                <div class="box flex-center" style="padding: 5px;">
+                    <img src="AAPICO_logo.png" alt="AAPICO Logo"
+                        style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                </div>
+                <div class="box label flex-left font-bold" style="padding-left: 10px;">OBJ 1-R: HEADER AREA (90%)</div>
+            </div>
+
+            <div class="main-content-grid">
+
+                <!-- [OBJ 2.1] TOP ROW (18fr) -->
+                <div class="grid obj-2-1-top b-b">
+                    <div class="grid obj-2-1-l-stack b-r">
+                        <div class="grid obj-2-1-l-top-grid b-b">
+                            <div class="box b-r b-b label flex-center font-bold"
+                                style="grid-row: span 2; font-size: 9pt;">ประเภทของ<br>การไคเซ็น</div>
+                            <div class="box b-b" style="grid-row: span 2;">
+                                <div class="g-3x4-blue">
+                                    <div class="blue-cell"><input type="checkbox">ปรับปรุงความปลอดภัย</div>
+                                    <div class="blue-cell"><input type="checkbox">ผลิตภายในแทน</div>
+                                    <div class="blue-cell"><input type="checkbox">ปรับปรุงกระบวนการผลิต</div>
+                                    <div class="blue-cell"><input type="checkbox">ปรับปรุงสภาพแวดล้อม</div>
+                                    <div class="blue-cell"><input type="checkbox">ประหยัดพลังงาน</div>
+                                    <div class="blue-cell"><input type="checkbox">ปรับปรุงสินค้าคงคลัง</div>
+                                    <div class="blue-cell"><input type="checkbox">ปรับปรุงคุณภาพ</div>
+                                    <div class="blue-cell"><input type="checkbox">ลดการใช้วัตถุดิบ</div>
+                                    <div class="blue-cell"><input type="checkbox" checked>ปรับปรุงสภาพการทำงาน</div>
+                                    <div class="blue-cell"><input type="checkbox">เพิ่มกำลังการผลิต</div>
+                                    <div class="blue-cell"><input type="checkbox">นวัตกรรม</div>
+                                    <div class="blue-cell"><input type="checkbox" checked>อื่นๆ
+                                        เพิ่มประสิทธิภาพ...........</div>
+                                </div>
+                            </div>
+                            <div class="box b-r b-b label flex-left font-bold font-md">ชื่อเรื่อง</div>
+                            <div class="box b-b label flex-center font-bold font-md">แอปพลิเคชัน SOS Widget</div>
+
+                            <div class="box b-r b-b label flex-left font-bold font-md">ชื่อ-นามสกุล</div>
+                            <div class="grid g-ratio-622 b-b">
+                                <div class="box b-r label flex-center font-bold font-md">นาย วจีประดิษฐ์ พรมพันธ์</div>
+                                <div class="box b-r label flex-center font-bold font-md">รหัสพนักงาน</div>
+                                <div class="box label flex-center font-bold font-md">10002898</div>
+                            </div>
+
+                            <div class="box b-r label flex-left font-bold font-md">ฝ่าย</div>
+                            <div class="grid g-ratio-622">
+                                <div class="grid b-r" style="grid-template-columns: 1fr 1fr 1fr;">
+                                    <div class="box b-r label flex-center font-bold font-md">AH</div>
+                                    <div class="box b-r label flex-center font-bold font-md">แผนก</div>
+                                    <div class="box label flex-center font-bold font-md">IT</div>
+                                </div>
+                                <div class="box b-r label flex-center font-bold" style="font-size: 8.5pt;">
+                                    วันที่ยื่นเรื่อง</div>
+                                <div class="box label flex-center font-bold font-md">26/02/26</div>
+                            </div>
+                        </div>
+
+                        <!-- 9 Rows -->
+                        <div class="grid g-rows-9">
+                            <div class="box b-b label font-bold">เหตุผล/ที่มาของการไคเซ็น</div>
+                            <!-- ★ เพิ่มตัวแปร --span ให้สอดคล้องกับบรรทัดที่รวม (8) ★ -->
+                            <div class="box label lined-text-area" style="--span: 8; grid-row: span 8;">
+                                1.
+                                ปัจจุบันขั้นตอนการแจ้งเหตุฉุกเฉินหรืออุบัติเหตุร้ายแรงในสายการผลิตยังต้องใช้ระบบการสื่อสารหลายขั้นตอน
+                                ทำให้เกิดความล่าช้าในการเข้าช่วยเหลือ<br>
+                                2. การเบิกจ่ายอุปกรณ์ซ่อมบำรุงในคลังสินค้าต้องใช้การเขียนใบเบิกกระดาษ
+                                ซึ่งใช้เวลาตรวจสอบนานและสูญหายได้ง่าย
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid obj-2-1-r-stack">
+                        <div class="grid obj-2-1-r-inner-header b-b">
+                            <div class="box b-b label">R.T.1 (10%)</div>
+                            <div class="grid obj-2-1-r-core">
+                                <div class="grid g-cols-5 b-b">
+                                    <div class="box b-r label flex-center">หัวหน้างาน</div>
+                                    <div class="box b-r label flex-center">โฟร์แมน</div>
+                                    <div class="box b-r label flex-center">ซุปเปอร์ไวเซอร์</div>
+                                    <div class="box b-r label flex-center">ผจก.แผนก</div>
+                                    <div class="box label flex-center">ผจก.ฝ่าย</div>
+                                </div>
+                                <div class="grid g-eval-table">
+                                    <div class="box b-r b-b label flex-left font-bold font-md">1. ผลการประเมิน</div>
+                                    <div class="box b-r b-b label flex-center font-bold font-md">A</div>
+                                    <div class="box b-r b-b label flex-center font-bold font-md">B</div>
+                                    <div class="box b-r b-b label flex-center font-bold font-md">C</div>
+                                    <div class="box b-r b-b label flex-center font-bold font-md">D</div>
+                                    <div class="box b-b label flex-center font-bold font-md">คะแนนรวม</div>
+
+                                    <div class="box b-r b-b label flex-left">ไอเดีย/แนวคิด</div>
+                                    <div class="box b-r b-b label flex-center">16</div>
+                                    <div class="box b-r b-b label flex-center">13</div>
+                                    <div class="box b-r b-b label flex-center">10</div>
+                                    <div class="box b-r b-b label flex-center">5</div>
+                                    <div class="box b-b label"></div>
+
+                                    <div class="box b-r b-b label flex-left">ความมุ่งมั่น</div>
+                                    <div class="box b-r b-b label flex-center">8</div>
+                                    <div class="box b-r b-b label flex-center">6</div>
+                                    <div class="box b-r b-b label flex-center">4</div>
+                                    <div class="box b-r b-b label flex-center">2</div>
+                                    <div class="box b-b label"></div>
+
+                                    <div class="box b-r b-b label flex-left">ความมีประโยชน์</div>
+                                    <div class="box b-r b-b label flex-center">8</div>
+                                    <div class="box b-r b-b label flex-center">6</div>
+                                    <div class="box b-r b-b label flex-center">4</div>
+                                    <div class="box b-r b-b label flex-center">2</div>
+                                    <div class="box b-b label"></div>
+
+                                    <div class="box b-r b-b label flex-left">ความทนทาน</div>
+                                    <div class="box b-r b-b label flex-center">8</div>
+                                    <div class="box b-r b-b label flex-center">6</div>
+                                    <div class="box b-r b-b label flex-center">4</div>
+                                    <div class="box b-r b-b label flex-center">2</div>
+                                    <div class="box b-b label"></div>
+
+                                    <div class="box b-r b-b label flex-left">ประโยชน์อื่นๆ</div>
+                                    <div class="box b-r b-b label flex-center">15</div>
+                                    <div class="box b-r b-b label flex-center">10</div>
+                                    <div class="box b-r b-b label flex-center">5</div>
+                                    <div class="box b-r b-b label flex-center">0</div>
+                                    <div class="box b-b label"></div>
+
+                                    <div class="box b-r b-b label flex-left">จำนวนเงินที่ประหยัดได้</div>
+                                    <div class="box b-r b-b label flex-right"
+                                        style="grid-column: span 4; padding-right: 15px;">บาท</div>
+                                    <div class="box b-b label"></div>
+
+                                    <div class="box b-r label flex-left font-bold font-md">ได้รับ / คะแนนรวม</div>
+                                    <div class="box b-r label flex-right font-bold font-md"
+                                        style="grid-column: span 4; padding-right: 15px;">บาท</div>
+                                    <div class="box label flex-center font-bold font-md">0</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box label-md">OBJ 2.1.R - BOTTOM</div>
+                    </div>
+                </div>
+
+                <!-- [OBJ 2.2] MIDDLE ROW (14fr) -->
+                <div class="grid g-rows-14 b-b">
+                    <!-- หัวข้อ 1 -->
+                    <div class="box b-b label font-bold">สภาพปัจจุบัน (จากข้อมูลในอดีตที่รวบรวมได้)</div>
+                    <!-- ★ --span: 6; ตรงกับค่า span 6 ★ -->
+                    <div class="box b-b label lined-text-area" style="--span: 6; grid-row: span 6;">
+                        - พนักงานต้องเดินไปแจ้งเหตุที่จุดรักษาความปลอดภัยส่วนกลาง (ใช้เวลาเฉลี่ย 5-10 นาที)<br>
+                        - หากเป็นช่วงกะดึก บุคลากรที่รับเรื่องมีจำนวนจำกัด ทำให้การประสานงานช้าลง
+                    </div>
+
+                    <!-- หัวข้อ 2 -->
+                    <div class="box b-b label font-bold">ไอเดีย/แนวคิดในการไคเซ็น</div>
+                    <!-- ★ --span: 6; ตรงกับค่า span 6 ★ -->
+                    <div class="box label lined-text-area" style="--span: 6; grid-row: span 6;">
+                        สร้าง Widget ปุ่ม SOS ไว้บนหน้าจอแท็บเล็ตประจำเครื่องจักรแต่ละจุด เมื่อกดปุ่ม
+                        ระบบจะส่งแจ้งเตือนพร้อมระบุพิกัดเครื่องจักรไปที่ทีมช่างทันที
+                    </div>
+                </div>
+
+                <!-- [OBJ 2.3] BOTTOM ROW (13fr) -->
+                <div class="grid g-rows-13">
+                    <div class="box b-b label font-bold">ผลของการไคเซ็น
+                        (เปรียบเทียบก่อน-หลัง/ประโยชน์ที่ได้รับจากการนำไปใช้)</div>
+                    <!-- ★ --span: 12; ตรงกับค่า span 12 ★ -->
+                    <div class="box label lined-text-area" style="--span: 12; grid-row: span 12;">
+                        ก่อนทำ:<br>
+                        การส่งต่อข้อมูลพึ่งพาระบบ Manual (บุคคลแจ้งบุคคล) ใช้เวลาเฉลี่ย 15 นาที<br><br>
+                        หลังทำ:<br>
+                        - ลดระยะเวลาแจ้งเหตุเหลือเพียง 10 วินาที<br>
+                        - ทีมช่วยเหลือสามารถประเมินตำแหน่งและเตรียมอุปกรณ์ที่เกี่ยวข้องได้ตรงจุดก่อนไปถึงหน้างาน
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
