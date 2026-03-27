@@ -1,0 +1,92 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+@theme {
+  --font-sarabun: "Sarabun", sans-serif;
+}
+
+:root {
+  --page-width: 210mm;
+  --page-height: 297mm;
+  --main-margin: 0.7cm;
+  --header-height: 1.5cm;
+  --border-color: #000;
+  --blue-line: #e2e8f0;
+  --bg-page: #f1f5f9;
+  --bg-header: #fafafa;
+  --primary: #2563eb;
+  --sidebar-width: 400px;
+  --row-h: 5.955mm;
+}
+
+body {
+  font-family: var(--font-sarabun);
+  background: var(--bg-page);
+}
+
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+  }
+
+  .print-area {
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  .paper {
+    box-shadow: none !important;
+    transform: scale(1) !important;
+    margin: 0 !important;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+
+/* Custom Utilities for the Kaizen Form */
+.lined-text-area {
+  background-image: linear-gradient(to bottom, transparent calc(var(--row-h) - 1px), #ccc calc(var(--row-h) - 1px));
+  background-size: 100% var(--row-h);
+  line-height: var(--row-h);
+  display: block;
+  padding: 0 5px;
+  padding-top: 0;
+  white-space: pre-wrap;
+  font-size: 8pt;
+  outline: none;
+  box-sizing: border-box;
+  cursor: text;
+  background-attachment: local;
+}
+
+.blue-cell {
+  border-right: 1px solid var(--blue-line);
+  border-bottom: 1px solid var(--blue-line);
+  display: flex;
+  align-items: center;
+  padding: 0 3px;
+  font-size: 6pt;
+  color: #000;
+  min-width: 0;
+}
+
+.paper {
+  width: var(--page-width);
+  height: var(--page-height);
+  background: white;
+  position: relative;
+  overflow: hidden;
+  transform-origin: top center;
+}
